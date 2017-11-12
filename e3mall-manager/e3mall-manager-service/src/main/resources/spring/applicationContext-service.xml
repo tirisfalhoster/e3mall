@@ -18,7 +18,7 @@
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 	<!-- 一,扫描service服务层 -->
-	<!-- <context:component-scan base-package="cn.e3mall.manager"></context:component-scan> -->
+	<context:component-scan base-package="cn.e3mall.manager.service"></context:component-scan>
 	<!-- 二,事物管理平台 -->
 	<!-- 1,定义管理平台 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
