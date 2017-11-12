@@ -18,16 +18,31 @@
 	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 	http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util-4.0.xsd">
-	<!-- 引用服务 -->
-	<dubbo:application name="e3mall-manager-web" />
-	<!-- <dubbo:registry address="multicast://224.5.6.7:1234" /> -->
-	<!-- 使用dubbo从Zookeeper注册中心获取服务 -->
-	<dubbo:registry protocol="zookeeper" address="192.168.95.131:2181" />
 
-	<!-- 引用服务 -->
-	<dubbo:reference interface="cn.e3mall.manager.service.ItemService" id="itemService" />
-	<dubbo:reference interface="cn.e3mall.manager.service.ItemCatService" id="itemCatService" />
-	<dubbo:reference interface="cn.e3mall.content.service.ContentCategoryService" id="contentCategoryService"/>
-	<dubbo:reference interface="cn.e3mall.content.service.ContentService" id="contentService"/>
+	<!-- 发布服务：把接口service发布Zookeeper注册中心 -->
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="mario-content-service" />
+	<!-- 使用multicast广播注册中心暴露服务地址 -->
+	<!-- <dubbo:registry address="multicast://224.5.6.7:1234"/> -->
+	<!-- 使用dubbo通过Zookeeper协议注册服务 -->
+	<dubbo:registry protocol="zookeeper" address="192.168.95.131:2181" />
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20881" />
+	
+	<!-- 声明需要暴露的服务接口 -->
+	<!-- 创建需要发布对象 + 发布服务 -->
+	<bean id="contentCategoryServiceImpl" class="cn.e3mall.content.service.impl.ContentCategoryServiceImpl"></bean>
+	<dubbo:service interface="cn.e3mall.content.service.ContentCategoryService" ref="contentCategoryServiceImpl" />
+	
+	<bean id="contentServiceImpl" class="cn.e3mall.content.service.impl.ContentServiceImpl"></bean>
+	<dubbo:service interface="cn.e3mall.content.service.ContentService" ref="contentServiceImpl" />
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </beans>
